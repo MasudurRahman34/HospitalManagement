@@ -27,8 +27,8 @@
                                     <span class="s-text">Product</span>
                                 </a>
                                 <ul>
-                                    <li><a href="widgets-blog.html">Blog</a></li>
-                                    <li><a href="widgets-blog.html">Unit</a></li>
+                                    <li><a href="{{ route('product.list') }}">List</a></li>
+                                    <li><a href="{{ route('unit.list') }}">Unit</a></li>
                                 </ul>
                                 {{-- <ul>
                                     <li><a href="widgets-blog.html">Unit</a></li>
@@ -53,7 +53,7 @@
                                     <span class="s-text">Supplier</span>
                                 </a>
                                 <ul>
-                                    <li><a href="widgets-blog.html">Blog</a></li>
+                                    <li><a href="{{ route('supplier.list') }}">List</a></li>
                                 </ul>
                             </li>
                             <li class="with-sub">

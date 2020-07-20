@@ -22,6 +22,7 @@ class CreateContactPeopleTable extends Migration
             $table->string('designation')->nullable();
             $table->text('address')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

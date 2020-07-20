@@ -1,16 +1,16 @@
 <?php
 
+namespace App\Http\Controllers\Unit;
 
-namespace App\Http\Controllers\Supplier;
 use App\Http\Controllers\Controller;
-use App\Model\Supplier;
+use App\Model\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\DB ;
 use Yajra\DataTables\Facades\DataTables;
 
-class SupplierController extends Controller
+class UnitController extends Controller
 {
     use ApiResponse;
     /**
@@ -20,7 +20,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.supplier.supplier');
+        return view('backend.pages.product.unit.unit');
     }
 
     /**
@@ -41,42 +41,34 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        $validator= Validator::make($request->all(), Supplier::$rules);
+        $validator= Validator::make($request->all(), Unit::$rules);
         if ($validator->fails()) {
+            // return response()->json([
+            //     'status'=>'Error',
+            //     'message' => $validator->errors(),
+            //     'data' => null
+            // ], 422);
             return $this->error($validator->errors(),200);
         }else{
             DB::beginTransaction();
             try {
-                $supplier= new Supplier();
-                $supplier->supplier_gen_id="sup_".time();
-                $supplier->name=$request->name;
-                $supplier->address=$request->address;
-                $supplier->save();
+                $Unit= new Unit();
+                $Unit->name=$request->name;
+                $Unit->save();
                 DB::commit();
-                return $this->success($supplier);
-            } catch (\Exception $e) {
+                return $this->success($Unit);
+            } catch (\Throwable $th) {
                 DB::rollBack();
-                return $this->error($e->getMessage(),200);
+                throw $th;
             }
 
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Supplier $supplier)
-    {
-        
-    }
     public function syncTable()
     {
-        $supplier=Supplier::orderBy('id','DESC')->get();
+        $Unit=Unit::orderBy('id','DESC')->get();
 
-        $data_table_render = DataTables::of($supplier)
+        $data_table_render = DataTables::of($Unit)
 
             ->addColumn('action',function ($row){
 
@@ -91,27 +83,39 @@ class SupplierController extends Controller
         return $data_table_render;
     }
 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Unit  $unit
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Unit $unit)
+    {
+        //
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Supplier  $supplier
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
-    {   
-        return $this->success($supplier);   
+    public function edit(Unit $unit)
+    {
+        return $this->success($unit);   
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Supplier  $supplier
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, Unit $unit)
     {
-        $validator= Validator::make($request->all(), Supplier::$rules);
+        $validator= Validator::make($request->all(), Unit::$rules);
         if ($validator->fails()) {
             // return response()->json([
             //     'status'=>'Error',
@@ -122,13 +126,12 @@ class SupplierController extends Controller
         }else{
             DB::beginTransaction();
             try {
-                //$supplier= new Supplier();
-                //$supplier->supplier_gen_id="sup".time();
-                $supplier->name=$request->name;
-                $supplier->address=$request->address;
-                $supplier->update();
+                //$Unit= new Unit();
+                //$Unit->Unit_gen_id="sup".time();
+                $unit->name=$request->name;
+                $unit->update();
                 DB::commit();
-                return $this->success($supplier);
+                return $this->success($Unit);
             } catch (\Throwable $th) {
                 DB::rollBack();
                 throw $th;
@@ -140,14 +143,12 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Supplier  $supplier
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Unit $unit)
     {
-       
-        $supplier->delete();
-        return $this->success($supplier);
-
+        $unit->delete();
+        return $this->success($unit);
     }
 }

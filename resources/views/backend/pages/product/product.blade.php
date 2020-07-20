@@ -1,13 +1,13 @@
 @extends('backend.layouts.master')
-    @section('title', 'Supplier List')
+    @section('title', 'Product List')
    
     @section('content')
     <div class="container-fluid">
-        <h4>Supplier List</h4>
+        <h4>Product List</h4>
         <ol class="breadcrumb no-bg m-b-1">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Supplier</a></li>
-            <li class="breadcrumb-item active">Supplier List</li>
+            <li class="breadcrumb-item"><a href="#">Product</a></li>
+            <li class="breadcrumb-item active">Product List</li>
         </ol>
         <div class="box box-block bg-white">
             <div class="row">
@@ -25,17 +25,51 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h6 class="modal-title" id="modalLabel">New Supplier Information</h6>
+                                    <h6 class="modal-title" id="modalLabel">New Product Information</h6>
                                 </div>
                                 <form id="myform" action="javascript:void(0)">
                                     <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="form-control-label">Catagory</label>
+                                            <select class="form-control m-b-1" id="catagory_id">
+                                                <option>--Please Select--</option>
+                                                @foreach (App\Model\Catagory::get() as $catagory)
+                                                    <option value="{{$catagory->id}}">{{$catagory->name}}</option>
+                                                @endforeach
+                                                
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="form-control-label">Supplier</label>
+                                            <select class="form-control m-b-1" id="supplier_id">
+                                                <option>--Please Select--</option>
+                                                @foreach (App\Model\Supplier::get() as $supplier)
+                                                    <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                                @endforeach
+                                                
+                                            </select>
+                                        </div>
                                             <div class="form-group">
                                                 <label for="recipient-name" class="form-control-label">Name:</label>
                                                 <input type="text" class="form-control" id="name">
                                             </div>
                                             <div class="form-group">
-                                                <label for="message-text" class="form-control-label">Address:</label>
-                                                <textarea class="form-control" id="address"></textarea>
+                                                <label for="recipient-name" class="form-control-label">Unit</label>
+                                                <select class="form-control m-b-1" id="unit_id">
+                                                    <option>--Please Select--</option>
+                                                    @foreach (App\Model\Unit::get() as $unit)
+                                                        <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                                    @endforeach
+                                                    
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="form-control-label">Price</label>
+                                                <input type="number" class="form-control" name="" id="price">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="form-control-label">Quantity</label>
+                                                <input type="number" class="form-control" name="" id="quantity">
                                             </div>
                                     </div>
                                     <div class="modal-footer">
@@ -54,12 +88,14 @@
                     <thead>
                         <tr>
                            <th data-priority="">Sl</th>
-                           <th data-priority="">Id</th>
+                           <th data-priority="">Product id</th>
                            <th data-priority="">Name</th>
-                           <th data-priority="">Address</th>
-                           <th data-priority="">Date of Insert</th>
+                           <th data-priority="">Catagory</th>
+                           <th data-priority="">Supplier</th>
+                           <th data-priority="">Unit</th>
+                           <th data-priority="">Price</th>
+                           <th data-priority="">Quantity</th>
                            <th data-priority="">Action</th>
-                           
                         </tr>
                      </thead>
                      <tbody>    </tbody>
@@ -84,19 +120,33 @@
                     },
                     'colvis',
                 ],
+                
                 columnDefs: [ {
                     // targets: -1,
                     visible: false
                 } ],
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var input = document.createElement("input");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();
+                        });
+                    });
+                },
                 processing:true,
                 serverSide:true,
-                ajax:"{!! route('supplier.synctable') !!}",
+                ajax:"{!! route('product.synctable') !!}",
                 columns:[
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'supplier_gen_id', name: 'id' },
+                    { data: 'product_gen_id', name: 'product_gen_id' },
                     { data: 'name', name: 'name' },
-                    { data: 'address', name: 'address' },
-                    { data: 'created_at', name: 'created_at' },
+                    { data: 'catagory.name', name: 'catagory.name' },
+                    { data: 'supplier.name', name: 'supplier.name' },
+                    { data: 'unit.name', name: 'unit.name' },
+                    { data: 'price', name: 'price' },
+                    { data: 'quantity', name: 'quantity' },
                     { data: 'action', name: 'action' }
                 ]
             });
@@ -112,13 +162,17 @@
                var data={
                    name:$('#name').val(),
                    //numberOfClass:$('#numberOfClass').val(),
-                   address:$('#address').val(),
+                   catagory_id:$('#catagory_id option:selected').val(),
+                   unit_id:$('#unit_id option:selected').val(),
+                   supplier_id:$('#supplier_id option:selected').val(),
+                   price:$('#price').val(),
+                   quantity:$('#quantity').val(),
                };
                console.log(data);
                if (id>0) {
-                   var url="{{url('/supplier/update')}}"+"/"+id;
+                   var url="{{url('/product/update')}}"+"/"+id;
                }else{
-                   var url="{{url('/supplier/store')}}"
+                   var url="{{url('/product/store')}}"
                }
                $.ajax({
                    method:"POST",
@@ -129,7 +183,7 @@
                     if (result.error==false) {
                         $( "div").remove( ".text-danger" );
                             successNotification();
-                            removeUpdateProperty("supplier");
+                            removeUpdateProperty("product");
                             document.getElementById("myform").reset();
                         }
                         if(result.error==true){
@@ -146,10 +200,10 @@
         });
 
         function btnEdit(id){
-            setUpdateProperty(id, 'Supplier');
+            setUpdateProperty(id, 'product');
             $.ajax({
                 type:'GET',
-                url:"/supplier/edit/"+id,
+                url:"/product/edit/"+id,
                 datatype:JSON,
                 success:function(result) {
                     $('#name').val(result.data.name);
@@ -174,7 +228,7 @@
             }).then(function(isConfirm) {
              if (isConfirm===true) {
                $.ajax({
-                   url:"/supplier/destroy/"+id,
+                   url:"/product/destroy/"+id,
                    type:"GET",
                    dataType:"json",
                    success:function(data) {

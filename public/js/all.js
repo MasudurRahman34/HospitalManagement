@@ -2485,8 +2485,8 @@ function successNotification() {
         // setTimeout(function() {window.location.reload();}, 600);
        setTimeout(function() {table.draw()}, 600);
 }
-function deleteAttribute(url, id){
-    swal({
+function deleteAttribute(id, url){
+    return swal({
              title: "Are you sure?",
              text: "You won't be able to recover this data!",
              type: "warning",
@@ -2495,25 +2495,7 @@ function deleteAttribute(url, id){
              cancelButtonText: "No, cancel!",
              closeOnConfirm: true,
              closeOnCancel: true,
-         }, function(isConfirm) {
-             if (isConfirm) {
-                 
-            //    var url = "{{url('/section/delete')}}";
-            //    $.ajax({
-            //        url:url+"/"+id,
-            //        type:"GET",
-            //        dataType:"json",
-            //        success:function(data) {
-            //            console.log(data)
-            //            table.draw();
-            //        }
-            //    })
-
-
-             } else {
-                 swal("Cancelled", "Your imaginary file is safe :)", "error");
-             }
-         });
+            })
 
  }
 $(document).ready(function(){

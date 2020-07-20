@@ -1,13 +1,13 @@
 @extends('backend.layouts.master')
-    @section('title', 'Supplier List')
+    @section('title', 'catagory List')
    
     @section('content')
     <div class="container-fluid">
-        <h4>Supplier List</h4>
+        <h4>Catagory List</h4>
         <ol class="breadcrumb no-bg m-b-1">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Supplier</a></li>
-            <li class="breadcrumb-item active">Supplier List</li>
+            <li class="breadcrumb-item"><a href="#">Catagory</a></li>
+            <li class="breadcrumb-item active">Catagory List</li>
         </ol>
         <div class="box box-block bg-white">
             <div class="row">
@@ -25,7 +25,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h6 class="modal-title" id="modalLabel">New Supplier Information</h6>
+                                    <h6 class="modal-title" id="modalLabel">New Catagory Information</h6>
                                 </div>
                                 <form id="myform" action="javascript:void(0)">
                                     <div class="modal-body">
@@ -34,8 +34,13 @@
                                                 <input type="text" class="form-control" id="name">
                                             </div>
                                             <div class="form-group">
-                                                <label for="message-text" class="form-control-label">Address:</label>
-                                                <textarea class="form-control" id="address"></textarea>
+                                            <label for="recipient-name" class="form-control-label">SeleCt Parent Catagory</label>
+                                            <select name="parent_id" class="form-control">
+                                                <option value="">primary catagory</option>
+                                                @foreach (App\Model\Catagory::get() as $catagory)
+                                                    <option value="{{$catagory->id}}">{{$catagory->name}}</option>
+                                                @endforeach
+                                            </select>
                                             </div>
                                     </div>
                                     <div class="modal-footer">
@@ -54,10 +59,7 @@
                     <thead>
                         <tr>
                            <th data-priority="">Sl</th>
-                           <th data-priority="">Id</th>
                            <th data-priority="">Name</th>
-                           <th data-priority="">Address</th>
-                           <th data-priority="">Date of Insert</th>
                            <th data-priority="">Action</th>
                            
                         </tr>
@@ -90,13 +92,10 @@
                 } ],
                 processing:true,
                 serverSide:true,
-                ajax:"{!! route('supplier.synctable') !!}",
+                ajax:"{!! route('catagory.synctable') !!}",
                 columns:[
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'supplier_gen_id', name: 'id' },
                     { data: 'name', name: 'name' },
-                    { data: 'address', name: 'address' },
-                    { data: 'created_at', name: 'created_at' },
                     { data: 'action', name: 'action' }
                 ]
             });
@@ -112,13 +111,12 @@
                var data={
                    name:$('#name').val(),
                    //numberOfClass:$('#numberOfClass').val(),
-                   address:$('#address').val(),
                };
                console.log(data);
                if (id>0) {
-                   var url="{{url('/supplier/update')}}"+"/"+id;
+                   var url="{{url('/catagory/update')}}"+"/"+id;
                }else{
-                   var url="{{url('/supplier/store')}}"
+                   var url="{{url('/catagory/store')}}"
                }
                $.ajax({
                    method:"POST",
@@ -129,11 +127,10 @@
                     if (result.error==false) {
                         $( "div").remove( ".text-danger" );
                             successNotification();
-                            removeUpdateProperty("supplier");
+                            removeUpdateProperty("catagory");
                             document.getElementById("myform").reset();
                         }
                         if(result.error==true){
-                            alert('working');
                             getError(result.message);
                         }
                 },
@@ -146,14 +143,13 @@
         });
 
         function btnEdit(id){
-            setUpdateProperty(id, 'Supplier');
+            setUpdateProperty(id, 'catagory');
             $.ajax({
                 type:'GET',
-                url:"/supplier/edit/"+id,
+                url:"/catagory/edit/"+id,
                 datatype:JSON,
                 success:function(result) {
                     $('#name').val(result.data.name);
-                    $('#address').val(result.data.address);
                  }
             });
               
@@ -174,7 +170,7 @@
             }).then(function(isConfirm) {
              if (isConfirm===true) {
                $.ajax({
-                   url:"/supplier/destroy/"+id,
+                   url:"/catagory/destroy/"+id,
                    type:"GET",
                    dataType:"json",
                    success:function(data) {

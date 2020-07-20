@@ -20,7 +20,13 @@ class CreateProductsTable extends Migration
             $table->float('price', 8);
             $table->float('quantity', 8);
             $table->unsignedBigInteger('unit_id')->comment('unit table');
+            $table->unsignedBigInteger('catagory_id')->comment('catagory table');
+            $table->unsignedBigInteger('supplier_id')->comment('Supplier table');
+            $table->foreign('catagory_id')->references('id')->on('catagories')->onDelete('cascade');
+            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
