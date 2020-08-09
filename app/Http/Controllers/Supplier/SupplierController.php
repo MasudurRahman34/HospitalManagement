@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Supplier;
 use App\Http\Controllers\Controller;
 use App\Model\Supplier;
+use App\Model\contactPerson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponse;
@@ -20,7 +21,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.supplier.supplier');
+        return view('backend.pages.Supplier.supplier');
     }
 
     /**
@@ -41,6 +42,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
+        print_r($request->contact);
         $validator= Validator::make($request->all(), Supplier::$rules);
         if ($validator->fails()) {
             return $this->error($validator->errors(),200);
@@ -48,10 +50,26 @@ class SupplierController extends Controller
             DB::beginTransaction();
             try {
                 $supplier= new Supplier();
-                $supplier->supplier_gen_id="sup_".time();
-                $supplier->name=$request->name;
-                $supplier->address=$request->address;
+                // $supplier->supplier_gen_id="sup_".time();
+                $supplier->official_name=$request->official_name;
+                $supplier->country=$request->country;
+                $supplier->official_address=$request->official_address;
+                $supplier->official_email=$request->official_email;
+                $supplier->official_mobile=$request->official_mobile;
+                //$supplier->contact_person=json_encode($request->contact);
                 $supplier->save();
+                //
+                if($supplier->save() && !empty($request->name)){
+                    $contact=new contactPerson();
+                    $contact->name=$request->name;
+                    $contact->mobile=$request->mobile;
+                    $contact->email=$request->email;
+                    $contact->designation=$request->designation;
+                    $contact->type_id=1;
+                    $contact->type='supplier';
+                    $contact->save();
+                }
+                
                 DB::commit();
                 return $this->success($supplier);
             } catch (\Exception $e) {
@@ -74,18 +92,27 @@ class SupplierController extends Controller
     }
     public function syncTable()
     {
-        $supplier=Supplier::orderBy('id','DESC')->get();
+        $supplier=Supplier::with('contactPerson')->orderBy('id','DESC')->get();
+        
 
         $data_table_render = DataTables::of($supplier)
 
             ->addColumn('action',function ($row){
+                return view('backend.pages.Supplier.action',compact('row'));
 
                 // return '<button class="btn btn-info btn-sm btn-circle waves-effect waves-light" onClick="btnEdit('.$row['id'].')"><i class="ti-info"></i></button>'.
                 //     '<button  onClick="btnDelete('.$row['id'].')" class="btn btn-danger btn-sm btn-circle waves-effect waves-light"> <i class="ti-close"></i></button>';
-                return '<button class="btn btn-info btn-sm" onClick="btnEdit('.$row['id'].')"><i class="fa fa-edit"></i></button>'.
-                    '<button  onClick="btnDelete('.$row['id'].')" class="btn btn-danger btn-sm delete_class"><i class="fa fa-trash-o"></i></button>';
+                // return '<button class="btn btn-info btn-sm" onClick="btnEdit('.$row['id'].')"><i class="fa fa-edit"></i></button>'.
+                //     '<button  onClick="btnDelete('.$row['id'].')" class="btn btn-danger btn-sm delete_class"><i class="fa fa-trash-o"></i></button>';
             })
-            ->rawColumns(['action'])
+        
+            ->addColumn('contact_person',function($supplier){
+                return view('backend.pages.Supplier.contact_person',compact('supplier'));
+            })
+            ->addColumn('contact_action',function($supplier){
+                return view('backend.pages.Supplier.contact_action',compact('supplier'));
+            })
+            ->rawColumns(['action','contact_person','contact_action'])
             ->addIndexColumn()
             ->make(true);
         return $data_table_render;

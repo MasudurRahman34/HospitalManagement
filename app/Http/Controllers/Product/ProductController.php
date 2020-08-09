@@ -21,6 +21,10 @@ class ProductController extends Controller
     {
         return view('backend.pages.product.product');
     }
+    public function pricing()
+    {
+        return view('backend.pages.product.pricing.pricing');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -70,8 +74,7 @@ class ProductController extends Controller
         }else{
             DB::beginTransaction();
             try {
-                $product= new Product();
-                $product->product_gen_id="pro_".time();
+                $product= new Product();  
                 $product->name=$request->name;
                 $product->price=$request->price;
                 $product->quantity=$request->quantity;

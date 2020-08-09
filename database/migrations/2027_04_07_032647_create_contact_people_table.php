@@ -15,12 +15,14 @@ class CreateContactPeopleTable extends Migration
     {
         Schema::create('contact_people', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
-            $table->string('type');
-            $table->string('email')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('designation')->nullable();
+            $table->string('name', 100);
+            $table->string('type',50);
+            $table->string('email',150)->nullable();
+            $table->string('mobile',30)->nullable();
+            $table->string('designation',30)->nullable();
             $table->text('address')->nullable();
+            $table->unsignedBigInteger('type_id')->comment('foreign table id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

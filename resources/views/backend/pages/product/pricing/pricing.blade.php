@@ -25,69 +25,26 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h6 class="modal-title" id="modalLabel">New Suplier Informationn</h6>
+                                    <h6 class="modal-title" id="modalLabel" style="color: red">New Suplier Information</h6>
                                 </div>
-                                <form id="myform" class="" method="post" action="{{ route('supplier.store') }}">
-                                    @csrf
+                                <form id="myform" action="javascript:void(0)">
                                     <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <h6>Official Information</h6>
-                                                <hr>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="form-control-label">Official Name:</label>
+                                                <input type="text" class="form-control" id="official_name">
                                             </div>
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="form-control-label">Official Name:</label>
-                                                    <input type="text" class="form-control" id="official_name" name="official_name">
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="form-control-label">official Address:</label>
+                                                <textarea class="form-control" id="official_address" placeholder="official address, mail, phone number"></textarea>
                                             </div>
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="message-text" class="form-control-label">Country:</label>
-                                                    <input type="text" class="form-control" id="country" name="country">
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="form-control-label">Country:</label>
+                                                <input type="text" class="form-control" id="country">
                                             </div>
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="message-text" class="form-control-label">official Address:</label>
-                                                    <textarea class="form-control" name="official_address" id="official_address" placeholder="official address,postal code etc.."></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <h6>Contact Person Information</h6>
-                                                <hr>
-                                            </div>
-                                            
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="name" class="form-control-label">Name</label>
-                                                    <input type="text" name="name" class="form-control" id="name" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="Designation" class="form-control-label">Designation</label>
-                                                    <input type="text" class="form-control" name="designation" id="designation" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail2" class="form-control-label">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="email" placeholder="">
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="phone" class="form-control-label">Phone Number</label>
-                                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" >Submit</button>
+                                        <button type="button" class="btn btn-primary" id="submit" value="0">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -102,11 +59,10 @@
                         <tr>
                            <th data-priority="">Sl</th>
                            <th data-priority="">Id</th>
-                           <th data-priority="">official Name</th>
-                           <th data-priority="">official Address</th>
-                           <th data-priority=""></th>
-                           <th data-priority="">Contact</th>
-                           <th data-priority=""></th>
+                           <th data-priority="">Name</th>
+                           <th data-priority="">Address</th>
+                           <th data-priority="">Date of Insert</th>
+                           <th data-priority="">Action</th>
                            
                         </tr>
                      </thead>
@@ -141,13 +97,11 @@
                 ajax:"{!! route('supplier.synctable') !!}",
                 columns:[
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'supplier_gen_id', name: 'supplier_gen_id' },
-                    { data: 'official_name', name: 'official_name' },
-                    { data: 'official_address', name: 'official_address' },
-                    { data: 'action', name: 'action' },
-                    { data: 'contact_person', name: 'contact_person' },
-                    { data: 'contact_action', name: 'contact_action' },
-                    
+                    { data: 'supplier_gen_id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'address', name: 'address' },
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'action', name: 'action' }
                 ]
             });
         $('#submit').click(function (e) {
@@ -160,12 +114,9 @@
                    },
                });
                var data={
-                   official_name:$('#official_name').val(),
-
+                   name:$('#name').val(),
                    //numberOfClass:$('#numberOfClass').val(),
-                   official_address:$('#official_address').val(),
-                   country_id:$('#country_id').val(),
-                   //contact:$("input:name='contact'").val(),
+                   address:$('#address').val(),
                };
                console.log(data);
                if (id>0) {
@@ -205,10 +156,8 @@
                 url:"/supplier/edit/"+id,
                 datatype:JSON,
                 success:function(result) {
-                    $('#official_name').val(result.data.name);
-                    $('#official_address').val(result.data.name);
-                    $('#country_id').val(result.data.country_id);
-                    
+                    $('#name').val(result.data.name);
+                    $('#address').val(result.data.address);
                  }
             });
               
