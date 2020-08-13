@@ -60,3 +60,7 @@ Route::group([ 'prefix'=>'catagory', 'namespace'=>'Catagory'], function () {
     Route::get('/destroy/{catagory}', 'CatagoryController@destroy')->name('catagory.destroy');
          //Route::get('/edit2/{id}', 'SupplierController@edit2')->name('supplier.edit2');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
