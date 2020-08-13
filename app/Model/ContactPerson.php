@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class contactPerson extends Model
 {
     public function Supplier(){
-            return $this->belongsTo(Supplier::class);  
+            return $this->belongsTo(Supplier::class,'type_id','id');  
     }
 }

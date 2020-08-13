@@ -27,8 +27,8 @@
                                     </button>
                                     <h6 class="modal-title" id="modalLabel">New Suplier Informationn</h6>
                                 </div>
-                                <form id="myform" class="" method="post" action="{{ route('supplier.store') }}">
-                                    @csrf
+                                {{-- <form id="myform" class="" method="post" action="{{ route('supplier.store') }}"> --}}
+                                    <form id="myform" action="javascript:void(0)">
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-xs-12">
@@ -38,13 +38,13 @@
                                             <div class="col-xs-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="form-control-label">Official Name:</label>
-                                                    <input type="text" class="form-control" id="official_name" name="official_name">
+                                                    <input type="text" class="form-control" id="official_name" name="official_name" value="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="form-group">
                                                     <label for="message-text" class="form-control-label">Country:</label>
-                                                    <input type="text" class="form-control" id="country" name="country">
+                                                    <input type="text" class="form-control" id="country" name="country" value="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12">
@@ -87,12 +87,89 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" >Submit</button>
+                                        <button type="submit" class="btn btn-primary" id="submit" value="0">Submit</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    <div style="hidden=true">
+                    <div class="modal fade" id="modalContact" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h6 class="modal-title" id="modalLabel">Update Contact Informationn</h6>
+                                </div>
+                                {{-- <form id="myform" class="" method="post" action="{{ route('supplier.store') }}"> --}}
+                                    <form id="myformContact" action="javascript:void(0)">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <h6>Official Information</h6>
+                                                <hr>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Official Name:</label>
+                                                    <input type="text" class="form-control" id="official_name2" name="official_name2" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="message-text" class="form-control-label">Country:</label>
+                                                    <input type="text" class="form-control" id="country2" name="country2" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="message-text" class="form-control-label">official Address:</label>
+                                                    <textarea class="form-control" name="official_name2" id="official_address2" placeholder="official address,postal code etc.."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <h6>Contact Person Information</h6>
+                                                <hr>
+                                            </div>
+                                            
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="name" class="form-control-label">Name</label>
+                                                    <input type="text" name="name" class="form-control" id="name2" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="Designation" class="form-control-label">Designation</label>
+                                                    <input type="text" class="form-control" name="designation" id="designation2" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail2" class="form-control-label">Email</label>
+                                                    <input type="email" class="form-control" name="email" id="email2" placeholder="">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="phone" class="form-control-label">Phone Number</label>
+                                                    <input type="text" class="form-control" name="mobile" id="mobile2" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" id="submitContact" value="0">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
              </div>
             </div>
             
@@ -101,7 +178,7 @@
                     <thead>
                         <tr>
                            <th data-priority="">Sl</th>
-                           <th data-priority="">Id</th>
+                           <th data-priority="">supplier_gen_id</th>
                            <th data-priority="">official Name</th>
                            <th data-priority="">official Address</th>
                            <th data-priority=""></th>
@@ -120,6 +197,7 @@
     {{-- @include ('backend.partials.js.datatables') --}}
     {{-- <script type="text/javascript" src="{{ asset('dashboard/html/js/index.js') }}"></script> --}}
     <script>
+        dataDismiss();
         var table= $('#table-2').DataTable({
                 dom: 'lBfrtip',
                 buttons: [
@@ -161,10 +239,12 @@
                });
                var data={
                    official_name:$('#official_name').val(),
-
-                   //numberOfClass:$('#numberOfClass').val(),
                    official_address:$('#official_address').val(),
-                   country_id:$('#country_id').val(),
+                   country:$('#country').val(),
+                   name:$('#name').val(),
+                   designation:$('#designation').val(),
+                   email:$('#email').val(),
+                   mobile:$('#mobile').val(),
                    //contact:$("input:name='contact'").val(),
                };
                console.log(data);
@@ -198,24 +278,122 @@
 
         });
 
+        $('#submitContact').click(function (e) {
+               e.preventDefault();
+               var id=$('#submitContact').val();
+               console.log(id);
+               $.ajaxSetup({
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                   },
+               });
+               var data={
+                   name:$('#name2').val(),
+                   designation:$('#designation2').val(),
+                   email:$('#email2').val(),
+                   mobile:$('#mobile2').val(),
+                   type:"supplier",
+                   //contact:$("input:name='contact'").val(),
+               };
+               //console.log(data);
+            
+                   var url="{{url('/api/contactperson/update')}}"+"/"+id;
+               
+               $.ajax({
+                   method:"PUT",
+                   url: url,
+                   data: data,
+                   success:function (result) {
+                       console.log(result);
+                    if (result.error==false) {
+                        $( "div").remove( ".text-danger" );
+                            successNotification();
+                            //removeUpdateProperty("supplier");
+                            document.getElementById("myformContact").reset();
+                        }
+                        if(result.error==true){
+                            alert('working');
+                            getError(result.message);
+                        }
+                },
+                errors:function(xhr,errors, status){
+                    console.log(status);
+                }
+                
+            });
+
+        });
         function btnEdit(id){
-            setUpdateProperty(id, 'Supplier');
+            setUpdateProperty(id, 'Supplier','modal','submit');
             $.ajax({
                 type:'GET',
                 url:"/supplier/edit/"+id,
                 datatype:JSON,
                 success:function(result) {
-                    $('#official_name').val(result.data.name);
-                    $('#official_address').val(result.data.name);
-                    $('#country_id').val(result.data.country_id);
+                    console.log(result);
+                    $('#official_name').val(result.data.official_name);
+                    $('#official_address').val(result.data.official_address);
+                    $('#country').val(result.data.country);
                     
                  }
             });
               
             //console.log(deleteAttribute().swal().isConfirm());
         }
+        function btnContactEdit(id){
+            setUpdateProperty(id, 'Contact','modalContact','submitContact');
+            $.ajax({
+                type:'GET',
+                url:"/api/contactperson/edit/"+id,
+                datatype:JSON,
+                success:function(result) {
+                    console.log(result);
+                    $('#official_name2').val(result.data.supplier.official_name);
+                    $('#official_address2').val(result.data.supplier.official_address);
+                    $('#country2').val(result.data.supplier.country);
+                    $('#name2').val(result.data.name);
+                    $('#designation2').val(result.data.designation);
+                    $('#email2').val(result.data.email);
+                    $('#mobile2').val(result.data.mobile);
+                    
+                 }
+            });
+        }
 
-    function btnDelete(id){
+
+    function btnContactDelete(id){
+        console.log(id);
+        swal({
+             title: "Are you sure?",
+             text: "You won't be able to recover this data!",
+             type: "warning",
+             showCancelButton: true,
+             confirmButtonText: "Delete !",
+             cancelButtonText: "No",
+             closeOnConfirm: true,
+             closeOnCancel: true,
+            }).then(function(isConfirm) {
+             if (isConfirm===true) {
+               $.ajax({
+                   url:"{{url('/api/contactperson/destroy')}}"+"/"+id,
+                   type:"GET",
+                   dataType:"json",
+                   success:function(data) {
+                       console.log(data)
+                       table.draw();
+                   }
+               })
+
+
+             } else {
+                 swal("Cancelled", "Your data is safe !", "error");
+             }
+         });
+            
+            //console.log(deleteAttribute().swal().isConfirm());
+        }
+
+        function btnDelete(id){
         console.log(id);
         swal({
              title: "Are you sure?",
@@ -232,9 +410,16 @@
                    url:"/supplier/destroy/"+id,
                    type:"GET",
                    dataType:"json",
-                   success:function(data) {
-                       console.log(data)
-                       table.draw();
+                   success:function(result) {
+                    console.log(result)
+                    if(result.error==true){
+                            alert(result.message);
+                            
+                        }else{
+                            
+                        table.draw();
+                        }
+                       
                    }
                })
 

@@ -44,7 +44,7 @@
                                             <select class="form-control m-b-1" id="supplier_id">
                                                 <option>--Please Select--</option>
                                                 @foreach (App\Model\Supplier::get() as $supplier)
-                                                    <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                                    <option value="{{$supplier->id}}">{{$supplier->official_name}}</option>
                                                 @endforeach
                                                 
                                             </select>
@@ -143,7 +143,7 @@
                     { data: 'product_gen_id', name: 'product_gen_id' },
                     { data: 'name', name: 'name' },
                     { data: 'catagory.name', name: 'catagory.name' },
-                    { data: 'supplier.name', name: 'supplier.name' },
+                    { data: 'supplier.official_name', name: 'supplier.official_name' },
                     { data: 'unit.name', name: 'unit.name' },
                     { data: 'price', name: 'price' },
                     { data: 'quantity', name: 'quantity' },

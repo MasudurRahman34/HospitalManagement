@@ -65,7 +65,7 @@ class SupplierController extends Controller
                     $contact->mobile=$request->mobile;
                     $contact->email=$request->email;
                     $contact->designation=$request->designation;
-                    $contact->type_id=1;
+                    $contact->type_id=$supplier->id;
                     $contact->type='supplier';
                     $contact->save();
                 }
@@ -149,11 +149,24 @@ class SupplierController extends Controller
         }else{
             DB::beginTransaction();
             try {
-                //$supplier= new Supplier();
-                //$supplier->supplier_gen_id="sup".time();
-                $supplier->name=$request->name;
-                $supplier->address=$request->address;
+                $supplier->official_name=$request->official_name;
+                $supplier->country=$request->country;
+                $supplier->official_address=$request->official_address;
+                $supplier->official_email=$request->official_email;
+                $supplier->official_mobile=$request->official_mobile;
+                //$supplier->contact_person=json_encode($request->contact);
                 $supplier->update();
+                //
+                if($supplier->update() && !empty($request->name)){
+                    $contact=new contactPerson();
+                    $contact->name=$request->name;
+                    $contact->mobile=$request->mobile;
+                    $contact->email=$request->email;
+                    $contact->designation=$request->designation;
+                    $contact->type_id=$supplier->id;
+                    $contact->type='supplier';
+                    $contact->save();
+                }
                 DB::commit();
                 return $this->success($supplier);
             } catch (\Throwable $th) {
@@ -172,9 +185,13 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-       
+       if((count($supplier->contactPerson)>0)){
+        return $this->error("Related Data Exist, Can Not Be Deleted",200);
+       }else{
         $supplier->delete();
         return $this->success($supplier);
+       };
+        
 
     }
 }

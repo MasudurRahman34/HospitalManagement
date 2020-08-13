@@ -2454,16 +2454,30 @@ $(document).ready(function() {
     } );
 
 });
-function setUpdateProperty(id,  propertyName){
-    $('#modal').modal('show');
+function setUpdateProperty(id, propertyName,modalName, btnSubmit){
+    $('#'+modalName).modal('show');
+    $('[data-dismiss]').attr('data-property',propertyName);
     $("#submit").html("<i class='fa fa-save'></i> Update "+propertyName+"");
     $("#modalLabel").html("Update "+propertyName+"");
-    $("#submit").val(id);
+    $("#"+btnSubmit).val(id);
 }
+
 function removeUpdateProperty(propertyName){
     $("#submit").html('Submit');
     $("#modalLabel").html("<i class='fa fa-save'></i> New "+propertyName+" Information");
     $("#submit").val(0);
+}
+function dataDismiss(){
+    $('[data-dismiss]').click(function(e){
+        e.preventDefault();
+        propertyName=$(this).attr('data-property');
+        if(propertyName==null){
+            console.log(propertyName);
+        }else{
+            removeUpdateProperty(propertyName);
+        }
+        
+    });
 }
 function getError(errorMessage){
     $( "div" ).remove( ".text-danger" );
