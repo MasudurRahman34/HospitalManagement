@@ -29,11 +29,58 @@
                                 <ul>
                                     <li><a href="{{ route('product.list') }}">List</a></li>
                                     <li><a href="{{ route('unit.list') }}">Unit</a></li>
+                                    <li><a href="{{ route('catagory.list') }}">Catagory</a></li>
                                 </ul>
                                 {{-- <ul>
                                     <li><a href="widgets-blog.html">Unit</a></li>
                                 </ul> --}}
                             </li>
+                            <li class="with-sub">
+                                <a href="#" class="waves-effect  waves-light">
+                                    <span class="s-caret"><i class="fa fa-angle-down"></i></span>
+                                    {{-- <span class="tag tag-danger">7</span> --}}
+                                    <span class="s-icon"><i class="ti-package"></i></span>
+                                    <span class="s-text">Requisiton</span>
+                                </a>
+                                <ul>
+                                    <li><a href="widgets-blog.html">Make Requisiton</a></li>
+                                </ul>
+                            </li>
+                            <li class="with-sub">
+                                <a href="#" class="waves-effect  waves-light">
+                                    <span class="s-caret"><i class="fa fa-angle-down"></i></span>
+                                    {{-- <span class="tag tag-danger">7</span> --}}
+                                    <span class="s-icon"><i class="ti-package"></i></span>
+                                    <span class="s-text">Order</span>
+                                </a>
+                                <ul>
+                                    <li><a href="widgets-blog.html">Process Order</a></li>
+                                </ul>
+                            </li>
+                            <li class="with-sub">
+                                <a href="#" class="waves-effect  waves-light">
+                                    <span class="s-caret"><i class="fa fa-angle-down"></i></span>
+                                    {{-- <span class="tag tag-danger">7</span> --}}
+                                    <span class="s-icon"><i class="ti-package"></i></span>
+                                    <span class="s-text">Stock</span>
+                                </a>
+                                <ul>
+                                    <li><a href="widgets-blog.html">Create Stock</a></li>
+                                    <li><a href="widgets-blog.html">Stock Product</a></li>
+                                </ul>
+                            </li>
+                            <li class="with-sub">
+                                <a href="#" class="waves-effect  waves-light">
+                                    <span class="s-caret"><i class="fa fa-angle-down"></i></span>
+                                    {{-- <span class="tag tag-danger">7</span> --}}
+                                    <span class="s-icon"><i class="ti-package"></i></span>
+                                    <span class="s-text">Account</span>
+                                </a>
+                                <ul>
+                                    <li><a href="widgets-blog.html">Create Bank Account</a></li>
+                                </ul>
+                            </li>
+                            
                             <li class="with-sub">
                                 <a href="#" class="waves-effect  waves-light">
                                     <span class="s-caret"><i class="fa fa-angle-down"></i></span>

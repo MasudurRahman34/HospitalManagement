@@ -12,7 +12,7 @@
         <div class="box box-block bg-white">
             <div class="row">
             <div class="col-md-6">
-                <h5 class="m-b-1 pull-xs-left">Export</h5>
+                <h5 class="m-b-1 pull-xs-left">Export Product</h5>
              </div>
              <div class="col-md-6">
                 <button type="button" class=" m-b-1 btn btn-success btn-circle waves-effect waves-light pull-xs-right"  data-toggle="modal" data-target="#modal">
@@ -29,60 +29,88 @@
                                 </div>
                                 <form id="myform" action="javascript:void(0)">
                                     <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="form-control-label">Catagory</label>
-                                            <select class="form-control m-b-1" id="catagory_id">
-                                                <option>--Please Select--</option>
-                                                @foreach (App\Model\Catagory::get() as $catagory)
-                                                    <option value="{{$catagory->id}}">{{$catagory->name}}</option>
-                                                @endforeach
-                                                
-                                            </select>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Name:</label>
+                                                    <input type="text" class="form-control" id="name">
+                                                    <div id="searchResult" class="bg-success">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Barcode</label>
+                                                    <input type="text" class="form-control" name="barcode" id="barcode">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Catagory</label>
+                                                    <select class="form-control m-b-1" id="catagory_id">
+                                                        <option>--Please Select--</option>
+                                                        @foreach ($catagories as $catagory)
+                                                            <option value="{{$catagory->id}}">{{$catagory->name}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Supplier</label>
+                                                    <select class="form-control m-b-1" id="supplier_id">
+                                                        <option>--Please Select--</option>
+                                                        @foreach ($suppliers as $supllier)
+                                                            <option value="{{$supllier->id}}">{{$supllier->official_name}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Unit</label>
+                                                    <select class="form-control m-b-1" id="unit_id">
+                                                        <option>--Please Select--</option>
+                                                        @foreach ($units as $unit)
+                                                            <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Buying price/per piece</label>
+                                                    <input type="number" class="form-control" name="buying_price" id="buying_price">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Selling price/per piece</label>
+                                                    <input type="number" class="form-control" name="selling_price" id="selling_price">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Description:</label>
+                                                    <textarea name="description" class="form-control" id="description" cols="10" rows="5"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="form-control-label">Supplier</label>
-                                            <select class="form-control m-b-1" id="supplier_id">
-                                                <option>--Please Select--</option>
-                                                @foreach (App\Model\Supplier::get() as $supplier)
-                                                    <option value="{{$supplier->id}}">{{$supplier->official_name}}</option>
-                                                @endforeach
-                                                
-                                            </select>
-                                        </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="form-control-label">Name:</label>
-                                                <input type="text" class="form-control" id="name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="form-control-label">Unit</label>
-                                                <select class="form-control m-b-1" id="unit_id">
-                                                    <option>--Please Select--</option>
-                                                    @foreach (App\Model\Unit::get() as $unit)
-                                                        <option value="{{$unit->id}}">{{$unit->name}}</option>
-                                                    @endforeach
-                                                    
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="message-text" class="form-control-label">Price</label>
-                                                <input type="number" class="form-control" name="" id="price">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="message-text" class="form-control-label">Quantity</label>
-                                                <input type="number" class="form-control" name="" id="quantity">
-                                            </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-primary" id="submit" value="0">Submit</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-             </div>
+                 </div>
             </div>
-            
             <div class="table-responsive">
                 <table class="table table-striped table-bordered dataTable" id="table-2">
                     <thead>
@@ -93,7 +121,8 @@
                            <th data-priority="">Catagory</th>
                            <th data-priority="">Supplier</th>
                            <th data-priority="">Unit</th>
-                           <th data-priority="">Price</th>
+                           <th data-priority="">Buying Price</th>
+                           <th data-priority="">Selling Price</th>
                            <th data-priority="">Quantity</th>
                            <th data-priority="">Action</th>
                         </tr>
@@ -108,6 +137,42 @@
     {{-- @include ('backend.partials.js.datatables') --}}
     {{-- <script type="text/javascript" src="{{ asset('dashboard/html/js/index.js') }}"></script> --}}
     <script>
+   
+        
+
+        $("#name").keyup(function (e) { 
+            e.preventDefault();
+            var product =$(this).val();
+            //console.log(product);
+        var data={
+            name:product,
+        };
+            $.ajax({
+                type: "POST",
+                url: "/api/product/search/name",
+                data: data,
+                //dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    var result='';
+                    result+="<ul class='list-group'>"
+                        response.data.forEach(list);
+                        result+='</ul>';
+                    function list(value){
+                        result+= '<li class="list-group-item bg-primary list_autosearch" style="cursor:pointer" data-id="'+value.id+'">'+value.name+'</li>';
+                    }
+                    $('#searchResult').fadeIn();
+                    document.getElementById("searchResult").innerHTML = result;
+                }
+            });
+            
+        });
+        $(document).on('click','.list_autosearch',function () {
+            $('#name').val($(this).text());
+            $('#name').attr('date-id',$(this).attr('data-id'));
+            $('#searchResult').fadeOut();
+            
+        });
         var table= $('#table-2').DataTable({
                 dom: 'lBfrtip',
                 buttons: [
@@ -145,7 +210,8 @@
                     { data: 'catagory.name', name: 'catagory.name' },
                     { data: 'supplier.official_name', name: 'supplier.official_name' },
                     { data: 'unit.name', name: 'unit.name' },
-                    { data: 'price', name: 'price' },
+                    { data: 'buying_price', name: 'buying_price' },
+                    { data: 'selling_price', name: 'selling_price' },
                     { data: 'quantity', name: 'quantity' },
                     { data: 'action', name: 'action' }
                 ]
@@ -153,26 +219,27 @@
         $('#submit').click(function (e) {
                e.preventDefault();
                var id=$('#submit').val();
-               console.log(id);
                $.ajaxSetup({
                headers: {
                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                    },
                });
                var data={
-                   name:$('#name').val(),
-                   //numberOfClass:$('#numberOfClass').val(),
-                   catagory_id:$('#catagory_id option:selected').val(),
-                   unit_id:$('#unit_id option:selected').val(),
-                   supplier_id:$('#supplier_id option:selected').val(),
-                   price:$('#price').val(),
-                   quantity:$('#quantity').val(),
+                    name:$('#name').val(),
+                    barcode:$('#barcode').val(),
+                    catagory_id:$('#catagory_id option:selected').val(),
+                    unit_id:$('#unit_id option:selected').val(),
+                    supplier_id:$('#supplier_id option:selected').val(),
+                    selling_price:$('#selling_price').val(),
+                    buying_price:$('#buying_price').val(),
+                    description:$('#description').val(),
+                //    quantity:$('#quantity').val(),
                };
                console.log(data);
                if (id>0) {
-                   var url="{{url('/product/update')}}"+"/"+id;
+                   var url="{{url('/api/product/update')}}"+"/"+id;
                }else{
-                   var url="{{url('/product/store')}}"
+                   var url="{{url('/api/product/store')}}"
                }
                $.ajax({
                    method:"POST",
@@ -200,20 +267,26 @@
         });
 
         function btnEdit(id){
-            setUpdateProperty(id, 'product');
+            setUpdateProperty(id, 'product','modal','submit');
             $.ajax({
                 type:'GET',
-                url:"/product/edit/"+id,
+                url:"/api/product/edit/"+id,
                 datatype:JSON,
                 success:function(result) {
+                    console.log()
                     $('#name').val(result.data.name);
-                    $('#address').val(result.data.address);
+                    $('#barcode').val(result.data.barcode);
+                    $('#catagory_id').val(result.data.catagory_id);
+                    $('#supplier_id').val(result.data.supplier_id);
+                    $('#unit_id').val(result.data.unit_id);
+                    $('#selling_price').val(result.data.selling_price);
+                    $('#buying_price').val(result.data.buying_price);
+                    $('#description').val(result.data.description);
                  }
             });
               
             //console.log(deleteAttribute().swal().isConfirm());
         }
-
     function btnDelete(id){
         console.log(id);
         swal({
@@ -228,7 +301,7 @@
             }).then(function(isConfirm) {
              if (isConfirm===true) {
                $.ajax({
-                   url:"/product/destroy/"+id,
+                   url:"/api/product/destroy/"+id,
                    type:"GET",
                    dataType:"json",
                    success:function(data) {

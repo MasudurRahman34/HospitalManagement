@@ -27,6 +27,7 @@ mix.styles([
     'public/dashboard/vendor/jvectormap/jquery-jvectormap-2.0.3.css',
     'public/dashboard/vendor/sweetalert2/sweetalert2.min.css',
     'public/dashboard/vendor/toastr/toastr.min.css',
+    'public/dashboard/vendor/select2/dist/css/select2.min.css',
     //datatable
     'public/dashboard/vendor/DataTables/css/dataTables.bootstrap4.min.css',
     'public/dashboard/vendor/DataTables/Responsive/css/responsive.bootstrap4.min.css',
@@ -65,6 +66,7 @@ mix.scripts([
     'public/dashboard/vendor/jvectormap/jquery-jvectormap-world-mill.js',
     'public/dashboard/vendor/sweetalert2/sweetalert2.min.js',
     'public/dashboard/vendor/toastr/toastr.min.js',
+    'public/dashboard/vendor/select2/dist/js/select2.min.js',
     //datatables
     'public/dashboard/vendor/DataTables/js/jquery.dataTables.min.js',
     'public/dashboard/vendor/DataTables/js/dataTables.bootstrap4.min.js',
@@ -83,5 +85,6 @@ mix.scripts([
     'resources/js/helper/helper.js',
     'public/dashboard/html/js/app.js',
     'public/dashboard/html/js/demo.js',
+    'public/dashboard/html/js/form-plugins.js',
     // 'public/dashboard/html/js/index.js'
 ], 'public/js/all.js').version();

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 
 use App\Model\Product;
+use App\Model\Supplier;
+use App\Model\Unit;
+use App\Model\Catagory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponse;
@@ -19,7 +22,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.product.product');
+        $catagories= Catagory::get();
+        $units= Unit::get();
+        $suppliers= Supplier::get();
+
+        return view('backend.pages.product.product',compact(['catagories','units', 'suppliers']));
     }
     public function pricing()
     {
@@ -65,22 +72,19 @@ class ProductController extends Controller
     {
         $validator= Validator::make($request->all(), Product::$rules);
         if ($validator->fails()) {
-            // return response()->json([
-            //     'status'=>'Error',
-            //     'message' => $validator->errors(),
-            //     'data' => null
-            // ], 422);
             return $this->error($validator->errors(),200);
         }else{
             DB::beginTransaction();
             try {
                 $product= new Product();  
                 $product->name=$request->name;
-                $product->price=$request->price;
-                $product->quantity=$request->quantity;
+                $product->barcode=$request->barcode;
                 $product->catagory_id=$request->catagory_id;
-                $product->unit_id=$request->unit_id;
                 $product->supplier_id=$request->supplier_id;
+                $product->unit_id=$request->unit_id;
+                $product->selling_price=$request->selling_price;
+                $product->buying_price=$request->buying_price;
+                $product->description=$request->description;
                 $product->save();
                 DB::commit();
                 return $this->success($product);
@@ -102,6 +106,23 @@ class ProductController extends Controller
     {
         
     }
+    public function searchProductName(Request $request)
+    {
+        
+        $value=$request->name;
+        //return $value;
+        $product=Product::where('name','like','%'.$value.'%')->get();
+        return $this->success($product);
+    }
+    public function filterSupplierProduct($supplier_id)
+    {
+        
+        $value=$supplier_id;
+        //return $value;
+        $filterSupplierProduct=DB::table('products')->where('supplier_id','=',$value)->get();
+        return $this->success($filterSupplierProduct);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -125,19 +146,19 @@ class ProductController extends Controller
     {
         $validator= Validator::make($request->all(), product::$rules);
         if ($validator->fails()) {
-            // return response()->json([
-            //     'status'=>'Error',
-            //     'message' => $validator->errors(),
-            //     'data' => null
-            // ], 422);
+           
             return $this->error($validator->errors(),200);
         }else{
             DB::beginTransaction();
             try {
-                //$product= new product();
-                //$product->product_gen_id="sup".time();
                 $product->name=$request->name;
-                $product->address=$request->address;
+                $product->barcode=$request->barcode;
+                $product->catagory_id=$request->catagory_id;
+                $product->supplier_id=$request->supplier_id;
+                $product->unit_id=$request->unit_id;
+                $product->selling_price=$request->selling_price;
+                $product->buying_price=$request->buying_price;
+                $product->description=$request->description;
                 $product->update();
                 DB::commit();
                 return $this->success($product);

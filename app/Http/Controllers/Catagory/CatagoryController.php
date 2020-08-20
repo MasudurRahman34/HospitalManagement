@@ -21,8 +21,10 @@ class CatagoryController extends Controller
      */
     public function index()
     {
+       
+        $catagories=Catagory::whereNull('parent_id')->with('childCatagories')->get();
 
-        return view('backend.pages.product.catagory.catagory');
+        return view('backend.pages.product.catagory.catagory',compact('catagories'));
     }
 
     /**
@@ -70,18 +72,18 @@ class CatagoryController extends Controller
 
     public function syncTable()
     {
-        $catagory=Catagory::orderBy('id','DESC')->get();
+        $catagory=Catagory::with('catagories')->orderBy('id','DESC')->get();
 
         $data_table_render = DataTables::of($catagory)
-
+            ->addColumn('parent_catagory',function($catagory){
+                return view('backend.pages.product.catagory.parent_catagory',compact('catagory'));
+            })
             ->addColumn('action',function ($row){
 
-                // return '<button class="btn btn-info btn-sm btn-circle waves-effect waves-light" onClick="btnEdit('.$row['id'].')"><i class="ti-info"></i></button>'.
-                //     '<button  onClick="btnDelete('.$row['id'].')" class="btn btn-danger btn-sm btn-circle waves-effect waves-light"> <i class="ti-close"></i></button>';
                 return '<button class="btn btn-info btn-sm" onClick="btnEdit('.$row['id'].')"><i class="fa fa-edit"></i></button>'.
                     '<button  onClick="btnDelete('.$row['id'].')" class="btn btn-danger btn-sm delete_class"><i class="fa fa-trash-o"></i></button>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['parent_catagory','action'])
             ->addIndexColumn()
             ->make(true);
         return $data_table_render;

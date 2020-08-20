@@ -34,11 +34,11 @@
                                                 <input type="text" class="form-control" id="name">
                                             </div>
                                             <div class="form-group">
-                                            <label for="recipient-name" class="form-control-label">SeleCt Parent Catagory</label>
-                                            <select name="parent_id" class="form-control">
-                                                <option value="">primary catagory</option>
-                                                @foreach (App\Model\Catagory::get() as $catagory)
-                                                    <option value="{{$catagory->id}}">{{$catagory->name}}</option>
+                                            <label for="recipient-name" class="form-control-label">Select Parent Catagory</label>
+                                            <select name="parent_id" class="form-control" id="parent_id">
+                                                <option value="" class="form-control">Primary Catagory</option>
+                                                @foreach ($catagories as $catagory)
+                                                    <option value="{{$catagory->id}}" class="form-control">{{$catagory->name}}</option>
                                                 @endforeach
                                             </select>
                                             </div>
@@ -60,6 +60,7 @@
                         <tr>
                            <th data-priority="">Sl</th>
                            <th data-priority="">Name</th>
+                           <th data-priority="">Child Catagory</th>
                            <th data-priority="">Action</th>
                            
                         </tr>
@@ -68,7 +69,8 @@
                 </table>
             </div>
         </div>
-    </div>
+            </div>
+
     @endsection
     @section('script')
     {{-- @include ('backend.partials.js.datatables') --}}
@@ -96,6 +98,7 @@
                 columns:[
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'name', name: 'name' },
+                    { data: 'parent_catagory', name: 'parent_catagory' },
                     { data: 'action', name: 'action' }
                 ]
             });
@@ -110,6 +113,7 @@
                });
                var data={
                    name:$('#name').val(),
+                   parent_id:$('#parent_id').val(),
                    //numberOfClass:$('#numberOfClass').val(),
                };
                console.log(data);

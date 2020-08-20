@@ -17,10 +17,10 @@ class CreateProductPricesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id')->comment('Supplier table');
             $table->unsignedBigInteger('product_id')->comment('product table');
-            $table->unsignedBigInteger('catagory_id')->comment('catagory table');
+            //$table->unsignedBigInteger('catagory_id')->comment('catagory table');
             $table->unsignedBigInteger('unit_id')->comment('unit table');
             $table->float('buying_price', 8)->default(0);
-            $table->float('sell_price', 8)->default(0);
+            $table->float('selling_price', 8)->default(0);
             $table->float('quantity', 8)->default(0);
             $table->unsignedInteger('is_approved')->default(0)->comment('1=approved');
             $table->unsignedInteger('status')->default(0)->comment('');

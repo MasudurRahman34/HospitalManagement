@@ -34,12 +34,11 @@ class Product extends Model
 
     public static $rules = [
         'name'=>'required', 'string', 'max:255',
-        'price'=>'required',
-        'quantity'=>'required',
         'catagory_id'=>'required',
-        'unit_id'=>'required',
         'supplier_id'=>'required',
-        
+        'unit_id'=>'required',
+        'buying_price'=>'required',
+        'selling_price'=>'required',
     ];
     public function IdIncreamentable(){
         return [

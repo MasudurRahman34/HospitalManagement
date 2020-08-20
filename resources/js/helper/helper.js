@@ -15,6 +15,7 @@ function dataDismiss(){
     $('[data-dismiss]').click(function(e){
         e.preventDefault();
         propertyName=$(this).attr('data-property');
+        console.log(propertyName);
         if(propertyName==null){
             console.log(propertyName);
         }else{
