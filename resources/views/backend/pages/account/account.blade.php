@@ -1,13 +1,13 @@
 @extends('backend.layouts.master')
-    @section('title', 'Supplier List')
+    @section('title', 'Account List')
    
     @section('content')
     <div class="container-fluid">
-        <h4>Supplier List</h4>
+        <h4>Account List</h4>
         <ol class="breadcrumb no-bg m-b-1">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Supplier</a></li>
-            <li class="breadcrumb-item active">Supplier List</li>
+            <li class="breadcrumb-item"><a href="#">Account</a></li>
+            <li class="breadcrumb-item active">Account List</li>
         </ol>
         <div class="box box-block bg-white">
             <div class="row">
@@ -25,62 +25,51 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h6 class="modal-title" id="modalLabel">New Supplier Informationn</h6>
+                                    <h6 class="modal-title" id="modalLabel">New Account Informationn</h6>
                                 </div>
                                 {{-- <form id="myform" class="" method="post" action="{{ route('supplier.store') }}"> --}}
                                     <form id="myform" action="javascript:void(0)">
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <h6>Official Information</h6>
+                                                <h6>Account Information</h6>
                                                 <hr>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="form-control-label">Official Name:</label>
-                                                    <input type="text" class="form-control" id="official_name" name="official_name" value="">
+                                                    <label for="recipient-name" class="form-control-label">Account Name:</label>
+                                                    <input type="text" class="form-control" id="name" name="name" value="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="form-group">
-                                                    <label for="message-text" class="form-control-label">Country:</label>
-                                                    <input type="text" class="form-control" id="country" name="country" value="">
+                                                    <label for="message-text" class="form-control-label">Account Holder Name</label>
+                                                    <input type="text" class="form-control" id="holder_name" name="holder_name" value="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="message-text" class="form-control-label">official Address:</label>
-                                                    <textarea class="form-control" name="official_address" id="official_address" placeholder="official address,postal code etc.."></textarea>
+                                                    <label for="message-text" class="form-control-label">Account Number</label>
+                                                    <input type="text" class="form-control" id="account_number" name="account_number" value="">
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12">
-                                                <h6>Contact Person Information</h6>
-                                                <hr>
-                                            </div>
-                                            
+        
                                             <div class="col-xs-6">
                                                 <div class="form-group">
-                                                    <label for="name" class="form-control-label">Name</label>
-                                                    <input type="text" name="name" class="form-control" id="name" placeholder="">
+                                                    <label for="name" class="form-control-label">Debit</label>
+                                                    <input type="text" name="debit" class="form-control" id="debit" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="form-group">
-                                                    <label for="Designation" class="form-control-label">Designation</label>
-                                                    <input type="text" class="form-control" name="designation" id="designation" placeholder="">
+                                                    <label for="Designation" class="form-control-label">Credit</label>
+                                                    <input type="text" class="form-control" name="credit" id="credit" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail2" class="form-control-label">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="email" placeholder="">
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label for="phone" class="form-control-label">Phone Number</label>
-                                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="">
+                                                    <label for="exampleInputEmail2" class="form-control-label">Asset</label>
+                                                    <input type="email" class="form-control" name="asset" id="asset" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
@@ -178,12 +167,13 @@
                     <thead>
                         <tr>
                            <th data-priority="">Sl</th>
-                           <th data-priority="">supplier_gen_id</th>
-                           <th data-priority="">official Name</th>
-                           <th data-priority="">official Address</th>
-                           <th data-priority=""></th>
-                           <th data-priority="">Contact</th>
-                           <th data-priority=""></th>
+                           <th data-priority="">Account Name</th>
+                           <th data-priority="">Account Holder</th>
+                           <th data-priority="">Account Number/ID</th>
+                           <th data-priority="">Debit</th>
+                           <th data-priority="">Credit</th>
+                           <th data-priority="">Asset</th>
+                           <th data-priority="">Action</th>
                            
                         </tr>
                      </thead>
@@ -216,15 +206,17 @@
                 } ],
                 processing:true,
                 serverSide:true,
-                ajax:"{!! route('supplier.synctable') !!}",
+                ajax:"{!! route('account.synctable') !!}",
                 columns:[
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'supplier_gen_id', name: 'supplier_gen_id' },
-                    { data: 'official_name', name: 'official_name' },
-                    { data: 'official_address', name: 'official_address' },
+                    { data: 'name', name: 'name' },
+                    { data: 'holder_name', name: 'holder_name' },
+                    { data: 'account_number', name: 'account_number'},
+                    { data: 'debit', name: 'debit'},
+                    { data: 'credit', name: 'credit'},
+                    { data: 'asset', name: 'asset' },
                     { data: 'action', name: 'action' },
-                    { data: 'contact_person', name: 'contact_person' },
-                    { data: 'contact_action', name: 'contact_action' },
+                    
                     
                 ]
             });
@@ -238,20 +230,18 @@
                    },
                });
                var data={
-                   official_name:$('#official_name').val(),
-                   official_address:$('#official_address').val(),
-                   country:$('#country').val(),
                    name:$('#name').val(),
-                   designation:$('#designation').val(),
-                   email:$('#email').val(),
-                   mobile:$('#mobile').val(),
-                   //contact:$("input:name='contact'").val(),
+                   holder_name:$('#holder_name').val(),
+                   account_number:$('#account_number').val(),
+                   debit:$('#debit').val(),
+                   credit:$('#credit').val(),
+                   asset:$('#asset').val(),
                };
                console.log(data);
                if (id>0) {
-                   var url="{{url('/supplier/update')}}"+"/"+id;
+                   var url="{{url('api/account/update')}}"+"/"+id;
                }else{
-                   var url="{{url('/supplier/store')}}"
+                   var url="{{url('api/account/store')}}"
                }
                $.ajax({
                    method:"POST",

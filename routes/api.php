@@ -42,3 +42,24 @@ Route::group([ 'prefix'=>'product', 'namespace'=>'Product'], function () {
     
          //Route::get('/edit2/{id}', 'SupplierController@edit2')->name('supplier.edit2');
 });
+
+Route::group([ 'prefix'=>'order', 'namespace'=>'Order'], function () {
+    Route::post('/store', 'OrderController@store')->name('order.store');
+    Route::post('/update/{order}', 'OrderController@update')->name('order.update');
+    Route::put('/approved/{order}', 'OrderController@orderApproved')->name('order.approved');
+    Route::get('/synctable', 'OrderController@syncTable')->name('order.synctable');
+    Route::get('product/synctable', 'OrderController@orderDetaisSynctable')->name('product_stock.synctable');
+    Route::get('/edit/{order}', 'OrderController@edit')->name('order.edit');
+    Route::get('/destroy/{order}', 'OrderController@destroy')->name('order.destroy');
+    
+         //Route::get('/edit2/{id}', 'SupplierController@edit2')->name('supplier.edit2');
+});
+Route::group([ 'prefix'=>'account', 'namespace'=>'Account'], function () {
+    Route::post('/store', 'AccountController@store')->name('account.store');
+    Route::post('/update/{account}', 'AccountController@update')->name('account.update');
+    Route::get('/synctable', 'AccountController@syncTable')->name('account.synctable');
+    Route::get('/edit/{account}', 'AccountController@edit')->name('account.edit');
+    Route::get('/destroy/{account}', 'AccountController@destroy')->name('account.destroy');
+    
+         //Route::get('/edit2/{id}', 'SupplierController@edit2')->name('supplier.edit2');
+});

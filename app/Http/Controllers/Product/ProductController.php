@@ -119,7 +119,8 @@ class ProductController extends Controller
         
         $value=$supplier_id;
         //return $value;
-        $filterSupplierProduct=DB::table('products')->where('supplier_id','=',$value)->get();
+        //$filterSupplierProduct=DB::table('products')->where('supplier_id','=',$value)->get();
+        $filterSupplierProduct=Product::where('supplier_id','=',$value)->with('unit')->get();
         return $this->success($filterSupplierProduct);
     }
 

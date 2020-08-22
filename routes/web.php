@@ -64,3 +64,15 @@ Route::group([ 'prefix'=>'pos', 'namespace'=>'Pos'], function () {
     Route::get('/purchase/rq', 'PosController@purchaseRq')->name('purchase.rq');
          //Route::get('/edit2/{id}', 'SupplierController@edit2')->name('supplier.edit2');
 });
+Route::group([ 'prefix'=>'order', 'namespace'=>'Order'], function () {
+    Route::get('/list', 'OrderController@index')->name('order.list');
+
+});
+Route::group([ 'prefix'=>'account', 'namespace'=>'Account'], function () {
+    Route::get('/list', 'AccountController@index')->name('account.list');
+
+});
+Route::group([ 'prefix'=>'stock', 'namespace'=>'Order'], function () {
+    Route::get('product/list', 'OrderController@stockProduct')->name('stock_product.list');
+
+});

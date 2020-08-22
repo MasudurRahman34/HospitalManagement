@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label for="recipient-name" class="form-control-label">Supplier</label>
                         <select class="form-control m-b-1" id="supplier_id">
-                            <option>--Please Select--</option>
+                            <option value="0">--Please Select--</option>
                             @foreach ($suppliers as $supllier)
                                 <option value="{{$supllier->id}}">{{$supllier->official_name}}</option>
                             @endforeach
@@ -111,7 +111,8 @@
                         <table class="table table-striped table-bordered" id="product_list">
                             <thead>
                                 <tr>
-                                <th>id</th>
+                                    <th style="display: none">id</th>
+                                <th>Productid</th>
                                 <th>Name</th>
                                 <th>Unit</th>
                                 <th>Buying Price</th>
@@ -121,43 +122,8 @@
                                 <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                  
-                                {{-- <tr>
-                                    
-                                    <td class="m-5"> <select id="my-select" name="" class="form-control input-sm">
-                                        <option>--please Select---</option>
-                                    </select></td>
-                                   <td>
-                                    <input type="text" name="" id="name" class="form-control input-sm">
-                                  </td>
-                                  <td>
-                                    <input type="text" name="" id="name" class="form-control">
-                                  </td>
-                                  <td>
-                                    <input type="text" name="" id="name" class="form-control">
-                                  </td>
-                                  <td>
-                                    <input type="text" name="" id="name" class="form-control">
-                                  </td>
-                                  <td>
-                                    <input type="text" name="" id="name" class="form-control">
-                                  </td>
-                                  <td>
-                                    <input type="text" name="" id="name" class="form-control">
-                                  </td>
-                                  <td>
-                                    <button type="button" class="btn btn-success btn-sm label-left b-a-0 waves-effect waves-light">
-										<span class="btn-label"><i class="ti-check"></i></span>
-										a
-									</button><button type="button" class="btn btn-success btn-sm label-left b-a-0 waves-effect waves-light">
-										<span class="btn-label"><i class="ti-check"></i></span>
-										b
-									</button>
-                                  </td>
-                                    
-                                </tr> --}}
-                            </tbody>
+                                <tbody>
+                                </tbody>
                         </table>
                     </div> 
                 </div>
@@ -172,7 +138,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="recipient-name" class="form-control-label">Sub Total Total</label>
-                                <input type="number" class="form-control" name="sub_total" id="sub_total" value="0">
+                                <input type="number" class="form-control" name="sub_total" id="sub_total" value="0" disabled>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -190,7 +156,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="recipient-name" class="form-control-label">Paid Amount</label>
-                                <input type="number" class="form-control" name="paid_amount" id="paid_amount" value="0">
+                                <input type="number" class="form-control" name="paid_amount" id="paid_amount" value="0" disabled>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -199,10 +165,25 @@
                                 <input type="number" class="form-control" name="due_amount" id="due_amount" value="0" disabled>
                             </div>
                         </div>
+                        {{-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="my-select" class="form-control-label">Payment Status</label>
+                                <select id="my-select" class="form-control" name="" id="payment_status">
+                                    <option value="cash">Cash</option>
+                                    <option value="cash">Bank</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="my-select" class="form-control-label">Transaction Id/Bank Account Number</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="recipient-name" class="form-control-label">.</label>
-                                <button type="submit" class="form-control btn btn-primary">Submit</button>
+                                <button type="submit" class="form-control btn btn-primary" onclick="invoice_Data_Send()">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -234,11 +215,11 @@
             //    data: filter_product,
                success: function (response) {
                    console.log(response);
-                  var option='<option>'+'--please select---'+'</option>';
+                  var option='<option value="0">'+'--please select---'+'</option>';
                   response.data.forEach(selectOption)
 
                   function selectOption(value){
-                      option+='<option value='+value.id+' data-name='+value.name+' data-unit_id='+value.unit_id+' data-buying_price='+value.buying_price +' data-selling_price='+value.selling_price +'>'+filterText(value)+'</option>'
+                      option+='<option value='+value.id+' data-product_gen_id='+value.product_gen_id+' data-name='+value.name+' data-unit_id='+value.unit.name+' data-buying_price='+value.buying_price +' data-selling_price='+value.selling_price +'>'+filterText(value)+'</option>'
                   }
                     document.getElementById("select_product").innerHTML = option;
                   function filterText(value){
@@ -274,7 +255,7 @@
 
         }
         $(function(){
-            $('#qty,#buying_price').on('change keydown keyup click',qty);
+            $('#qty,#buying_price').on('focus change keydown keyup click',qty);
             function qty() {
                var sum=(Number($('#qty').val()))*(Number($("#buying_price").val()));
                $("#total_amount").val(sum);
@@ -284,6 +265,8 @@
         function addProductToTable() {
             var product={
                 'product_id':$('#select_product option:selected').val(),
+                'id':$('#select_product option:selected').val(),
+                'product_gen_id':$('#select_product option:selected').data('product_gen_id'),
                 'product_name':$('#name').val(),
                 'unit':$('#unit').val(),
                 'buying_price':Number($('#buying_price').val()),
@@ -297,10 +280,26 @@
         }
         var sub_total=0;
         function addRow(product){
+            supplier_id=$('#supplier_id option:selected').val();
+            filter_by=$("input[name='filter_by']:checked").val();
+            console.log(product.product_id);
+            //return true;
+           if(supplier_id == 0){
+               alert('please select supplier');
+               return true;
+           }else if( filter_by == null){
+            alert('please select Search By');
+               return true;
+           }else if( product.product_id == (null ||0) ){
+            alert('please select product');
+               return true;
+           }else{
+            
             var tableB=$('#product_list tbody');
             var row=$(
             '<tr>'
-                +'<td>'+product.product_id+'</td>'
+                +'<td style="display:none">'+product.id+'</td>'
+                +'<td>'+product.product_gen_id+'</td>'
                 +'<td>'+product.product_name+'</td>'
                 +'<td>'+product.unit+'</td>'
                 +'<td>'+product.buying_price+'</td>'
@@ -310,7 +309,8 @@
                 +"<td><button type='button' class='btn btn-danger btn-circle waves-effect waves-light' onclick='deleteProductFromTable(this)'><i class='ti-close'></i></button></td>"
                     +'</tr>'                
             );
-            row.data('id',product.product_id);
+            row.data('id',product.id);
+            row.data('id',product.product_gen_id);
             row.data('id',product.product_name);
             row.data('id',product.unit);
             row.data('id',product.buying_price);
@@ -320,15 +320,17 @@
             tableB.append(row);
              sub_total+=Number(product.total_amount);
 
-            $('#sub_total').val(sub_total);
-
+             $('#sub_total,#due_amount, #total_payable').val(sub_total);
+                }//esle
             };
             
             var last_product_price;
             function deleteProductFromTable(e){
                 last_product_price=parseFloat($(e).parent().parent().find('td:nth-last-child(2)').text(),10);
                 sub_total-=Number(last_product_price);
-                $('#sub_total').val(sub_total);
+                $('#discount').val(0);
+                $('#paid_amount').val(0);
+                $('#sub_total,#total_payable,#due_amount').val(sub_total);
                 $(e).parent().parent().remove();
             };
 
@@ -346,5 +348,59 @@
                    $('#due_amount').val(due_amount);
                 }
             });
+
+            function invoice_Data_Send(){
+                var sub_total=$('#sub_total').val();
+                var discount=$('#discount').val();
+                var total_payable=$('#total_payable').val();
+                var due_amount=$('#due_amount').val();
+                var paid_amount=$('#paid_amount').val();
+                var supplier_id=$('#supplier_id option:selected').val();
+                var product_data=[]
+                $('#product_list tbody tr').each(function(row,tr){
+                    var product_data_from_table={
+                        'product_id':$(tr).find('td:eq(0)').text(),
+                        'buying_price':$(tr).find('td:eq(4)').text(),
+                        'quantity':$(tr).find('td:eq(6)').text(),
+                        'total_amount':$(tr).find('td:eq(7)').text(),
+
+                    }
+                    product_data.push(product_data_from_table);
+                });
+               
+                 //console.log(product_data);
+                // return true;
+                data={
+                    'sub_total':sub_total,
+                    'discount':discount,
+                    'total_payable':total_payable,
+                    'due_amount':due_amount,
+                    'paid_amount':paid_amount,
+                    'supplier_id':supplier_id,
+                    'order_type':'purchase',
+                    'product_data':product_data,
+                }
+                console.log(data);
+                //return true;
+                $.ajax({
+                    type: "post",
+                    url: "/api/order/store",
+                    data: data,
+                    //dataType: "dataType",
+                    success: function (result) {
+                        console.log(result);
+                        if (result.error==false) {
+                        $( "div").remove( ".text-danger" );
+                             successNotification();
+                            // removeUpdateProperty("product");
+                            // document.getElementById("myform").reset();
+                        }
+                        if(result.error==true){
+                            getError(result.message);
+                        }
+                    }
+                });
+            }
+
     </script>
     @endsection

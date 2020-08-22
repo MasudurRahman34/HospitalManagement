@@ -43,7 +43,7 @@
                                     <span class="s-text">Requisiton</span>
                                 </a>
                                 <ul>
-                                    <li><a href="widgets-blog.html">Make Requisiton</a></li>
+                                    <li><a href="{{ route('purchase.rq') }}">Make Requisiton</a></li>
                                 </ul>
                             </li>
                             <li class="with-sub">
@@ -54,7 +54,7 @@
                                     <span class="s-text">Order</span>
                                 </a>
                                 <ul>
-                                    <li><a href="widgets-blog.html">Process Order</a></li>
+                                    <li><a href="{{ route('order.list') }}">Process Order</a></li>
                                 </ul>
                             </li>
                             <li class="with-sub">
@@ -65,8 +65,8 @@
                                     <span class="s-text">Stock</span>
                                 </a>
                                 <ul>
-                                    <li><a href="widgets-blog.html">Create Stock</a></li>
-                                    <li><a href="widgets-blog.html">Stock Product</a></li>
+                                    <li><a href="{{ route('catagory.list') }}">Create Stock</a></li>
+                                    <li><a href="{{ route('stock_product.list') }}">Stock Product</a></li>
                                 </ul>
                             </li>
                             <li class="with-sub">
@@ -77,21 +77,21 @@
                                     <span class="s-text">Account</span>
                                 </a>
                                 <ul>
-                                    <li><a href="widgets-blog.html">Create Bank Account</a></li>
+                                    <li><a href="{{ route('account.list') }}">Account Details</a></li>
                                 </ul>
                             </li>
                             
-                            <li class="with-sub">
+                            {{-- <li class="with-sub">
                                 <a href="#" class="waves-effect  waves-light">
                                     <span class="s-caret"><i class="fa fa-angle-down"></i></span>
-                                    {{-- <span class="tag tag-danger">7</span> --}}
+                                   
                                     <span class="s-icon"><i class="ti-package"></i></span>
                                     <span class="s-text">Quotation</span>
                                 </a>
                                 <ul>
                                     <li><a href="widgets-blog.html">Blog</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             <li class="with-sub">
                                 <a href="#" class="waves-effect  waves-light">
                                     <span class="s-caret"><i class="fa fa-angle-down"></i></span>
@@ -103,17 +103,17 @@
                                     <li><a href="{{ route('supplier.list') }}">List</a></li>
                                 </ul>
                             </li>
-                            <li class="with-sub">
+                            {{-- <li class="with-sub">
                                 <a href="#" class="waves-effect  waves-light">
                                     <span class="s-caret"><i class="fa fa-angle-down"></i></span>
-                                    {{-- <span class="tag tag-danger">7</span> --}}
+                                    
                                     <span class="s-icon"><i class="ti-package"></i></span>
                                     <span class="s-text">Customer</span>
                                 </a>
                                 <ul>
                                     <li><a href="widgets-blog.html">Blog</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             {{-- <li class="with-sub">
                                 <a href="#" class="waves-effect  waves-light">
                                     <span class="s-caret"><i class="fa fa-angle-down"></i></span>
