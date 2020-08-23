@@ -49,6 +49,7 @@ Route::group([ 'prefix'=>'order', 'namespace'=>'Order'], function () {
     Route::put('/approved/{order}', 'OrderController@orderApproved')->name('order.approved');
     Route::get('/synctable', 'OrderController@syncTable')->name('order.synctable');
     Route::get('product/synctable', 'OrderController@orderDetaisSynctable')->name('product_stock.synctable');
+    Route::post('/stock/quantity/{order}', 'OrderController@stockQuantity')->name('product_stock.quantity');
     Route::get('/edit/{order}', 'OrderController@edit')->name('order.edit');
     Route::get('/destroy/{order}', 'OrderController@destroy')->name('order.destroy');
     

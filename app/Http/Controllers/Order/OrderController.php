@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Order;
 use App\Model\OrderDetails;
 use App\Model\Supplier;
+use App\Model\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponse;
@@ -117,9 +118,30 @@ class OrderController extends Controller
                 
                 $order->update();
                 $OrderDetails=OrderDetails::where('order_id',$order->id)->update(array('status'=>1));
-
+                
                 DB::commit();
                 return $this->success($order);
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                throw $th;
+            }
+    }
+    public function stockQuantity(Request $request, $id)
+    {
+        DB::beginTransaction();
+            try {
+    
+                $OrderDetails=OrderDetails::find($id);
+                $OrderDetails->status=2;
+                $OrderDetails->quantity=$request->quantity;
+
+                
+                $Product=Product::where('id',$OrderDetails->product_id)->update(array('quantity'=>$request->quantity));
+                // $Product->quantity=$request->quantity;
+                $OrderDetails->update();
+                // $Product->update();
+                DB::commit();
+                return $this->success($Product);
             } catch (\Throwable $th) {
                 DB::rollBack();
                 throw $th;

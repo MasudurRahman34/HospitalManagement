@@ -137,7 +137,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="recipient-name" class="form-control-label">Sub Total Total</label>
+                                <label for="recipient-name" class="form-control-label">Sub Total</label>
                                 <input type="number" class="form-control" name="sub_total" id="sub_total" value="0" disabled>
                             </div>
                         </div>

@@ -1,13 +1,13 @@
 @extends('backend.layouts.master')
-    @section('title', 'unit List')
+    @section('title', 'stock List')
    
     @section('content')
     <div class="container-fluid">
-        <h4>Unit List</h4>
+        <h4>Stock List</h4>
         <ol class="breadcrumb no-bg m-b-1">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Unit</a></li>
-            <li class="breadcrumb-item active">Unit List</li>
+            <li class="breadcrumb-item"><a href="#">Stock</a></li>
+            <li class="breadcrumb-item active">Stock List</li>
         </ol>
         <div class="box box-block bg-white">
             <div class="row">
@@ -15,6 +15,37 @@
                 <h5 class="m-b-1 pull-xs-left">Export</h5>
              </div>
              <div class="col-md-6">
+                <div class="modal fade" id="modal_approve" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h6 class="modal-title" id="modalLabel">Update Stock</h6>
+                            </div>
+                            {{-- <form id="myform" class="" method="post" action="{{ route('supplier.store') }}"> --}}
+                                <form id="myformContact" action="javascript:void(0)">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h6>Do You Receive the Product ?</h6>
+                                            <hr>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <label for="message-text" class="form-control-label">Quantity</label>
+                                            <input class="form-control" type="number" id="quantity">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" id="submitApprove" value="0">Yes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class=" m-b-1 btn btn-success btn-circle waves-effect waves-light pull-xs-right"  data-toggle="modal" data-target="#modal">
                     <i class="ti-plus"></i>
                 </button>
@@ -143,16 +174,25 @@
 
         });
 
-        function btnEdit(id){
-            setUpdateProperty(id, 'unit');
+        function Stock_in_Product(id, quantity){
+            $('#modal_approve').modal('show');
+            $('#quantity').attr('max',quantity);
+            $('#submitApprove').click(function (e) { 
+                        e.preventDefault();
+                        data={
+                            'quantity': $('#quantity').val(),
+                        }
             $.ajax({
-                type:'GET',
-                url:"/unit/edit/"+id,
-                datatype:JSON,
+                type:'POST',
+                url:"/api/order/stock/quantity/"+id,
+                data:data,
                 success:function(result) {
-                    $('#name').val(result.data.name);
+                    console.log(result);
+                    setTimeout(function() {table.draw()}, 600);
+                    $('#modal_approve').modal('hide');
                  }
             });
+        });
               
             //console.log(deleteAttribute().swal().isConfirm());
         }
